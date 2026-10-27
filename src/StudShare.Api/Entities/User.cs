@@ -19,6 +19,8 @@ public class User
     public bool UploadAccess { get; set; } = true;
     public DateTime JoinedAt { get; set; }
     public DateTime? InvitedAt { get; set; }
+    public string PasswordHash { get; set; } = string.Empty;
+    public bool IsEmailVerified { get; set; } = false;
 }
 
 public class AuthorSummary
