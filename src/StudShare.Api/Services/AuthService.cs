@@ -28,8 +28,10 @@ public class AuthService(AppDbContext db, IConfiguration config, HistoryService 
             UploadAccess = false,
         };
 
+        db.Users.Add(user);
+
         var invite = await db.GroupInvitations
-            .FirstOrDefaultAsync(i => i.Email == req.Email && i.ExpiresAt > DateTime.UtcNow);
+            .FirstOrDefaultAsync(i => i.Email == req.Email.ToLowerInvariant() && i.ExpiresAt > DateTime.UtcNow);
 
         if (invite is not null)
         {
@@ -52,7 +54,6 @@ public class AuthService(AppDbContext db, IConfiguration config, HistoryService 
         }
         else
         {
-            db.Users.Add(user);
             await db.SaveChangesAsync();
         }
 

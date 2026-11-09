@@ -140,7 +140,7 @@ public class FileService(AppDbContext db, HistoryService historyService, IWebHos
         return (fileId, group?.StorageUsedBytes ?? 0);
     }
 
-    private static FileCategory GetCategory(string ext) => ext switch
+    public static FileCategory GetCategory(string ext) => ext switch
     {
         "pdf"              => FileCategory.Pdf,
         "docx" or "doc"   => FileCategory.Docx,
@@ -153,7 +153,7 @@ public class FileService(AppDbContext db, HistoryService historyService, IWebHos
         _                  => FileCategory.Other,
     };
 
-    private static string GetContentType(string ext) => ext switch
+    public static string GetContentType(string ext) => ext switch
     {
         "pdf"  => "application/pdf",
         "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",

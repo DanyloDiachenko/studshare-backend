@@ -13,7 +13,14 @@ public class HistoryService(AppDbContext db)
         {
             GroupId = groupId,
             Kind = kind,
-            Actor = actor,
+            Actor = new AuthorSummary
+            {
+                Id = actor.Id,
+                FirstName = actor.FirstName,
+                LastName = actor.LastName,
+                MiddleName = actor.MiddleName,
+                Role = actor.Role,
+            },
             Text = text,
             CreatedAt = DateTime.UtcNow,
         });

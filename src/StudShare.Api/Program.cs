@@ -12,13 +12,16 @@ Env.TraversePath().Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-var baseConnection = builder.Configuration.GetConnectionString("DefaultConnection")!;
-var connectionString = baseConnection.Contains("Password=")
-    ? baseConnection
-    : baseConnection + $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")};";
+if (!builder.Environment.IsEnvironment("Testing"))
+{
+    var baseConnection = builder.Configuration.GetConnectionString("DefaultConnection")!;
+    var connectionString = baseConnection.Contains("Password=")
+        ? baseConnection
+        : baseConnection + $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")};";
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connectionString));
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseNpgsql(connectionString));
+}
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<HistoryService>();
@@ -93,3 +96,6 @@ app.MapMembersEndpoints();
 app.MapHistoryEndpoints();
 
 app.Run();
+
+public partial class Program { }
+

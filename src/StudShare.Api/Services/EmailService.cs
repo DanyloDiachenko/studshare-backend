@@ -24,7 +24,7 @@ public class EmailService(IConfiguration config)
         ?? config["Email:From"]
         ?? User;
 
-    public async Task SendAsync(string to, string subject, string htmlBody)
+    public virtual Task SendAsync(string to, string subject, string htmlBody)
     {
         using var client = new SmtpClient(Host, Port)
         {
@@ -37,7 +37,7 @@ public class EmailService(IConfiguration config)
             IsBodyHtml = true,
         };
 
-        await client.SendMailAsync(message);
+        return client.SendMailAsync(message);
     }
 
     public Task SendVerificationCodeAsync(string to, string code) =>
